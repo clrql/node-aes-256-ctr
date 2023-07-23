@@ -8,7 +8,7 @@ import crypto from "crypto";
  */
 export class AES256CTR {
   key: Buffer = crypto.randomBytes(32);
-	iv: Buffer = crypto.randomBytes(16);
+  iv: Buffer = crypto.randomBytes(16);
   ciphid: string = crypto.randomBytes(8*3/4).toString('base64url');
 	
   /**
@@ -16,7 +16,7 @@ export class AES256CTR {
   */
   updatecipher() {
     this.key = crypto.randomBytes(32);
-	  this.iv = crypto.randomBytes(16);
+    this.iv = crypto.randomBytes(16);
     this.ciphid = crypto.randomBytes(8*3/4).toString('base64url');
   }
 
@@ -32,11 +32,11 @@ export class AES256CTR {
     sourceEncoding: crypto.Encoding = 'utf8', 
     encryptedEncoding: crypto.Encoding = 'base64url'
   ) {
-		const cipher = crypto.createCipheriv('aes-256-ctr', this.key, this.iv);
+    const cipher = crypto.createCipheriv('aes-256-ctr', this.key, this.iv);
     let ciphered = cipher.update(source, sourceEncoding, encryptedEncoding);
     ciphered += cipher.final(encryptedEncoding);
-		return ciphered
-	}
+      return ciphered;
+    }
 
   /**
    * decipher a string
@@ -46,17 +46,17 @@ export class AES256CTR {
    * @param sourceEncoding :  the source string encoding
    * @returns deciphered source
    */
-	decipher(
+  decipher(
     ciphid: string,
-    ciphered: string, 
+    ciphered: string,
     cipheredEncoding: crypto.Encoding = 'base64url', 
     sourceEncoding: crypto.Encoding = 'utf8'
   ) {
     if (ciphid != this.ciphid) throw Error(`The cipher has changed it's keys`);
-		const decipher = crypto.createDecipheriv('aes-256-ctr', this.key, this.iv);
-		let deciphered = decipher.update(ciphered, cipheredEncoding, sourceEncoding);
+    const decipher = crypto.createDecipheriv('aes-256-ctr', this.key, this.iv);
+    let deciphered = decipher.update(ciphered, cipheredEncoding, sourceEncoding);
     deciphered += decipher.final(sourceEncoding);
-		return deciphered;
-	}
+    return deciphered;
+  }
 }
 ```
